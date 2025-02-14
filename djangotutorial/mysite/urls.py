@@ -20,6 +20,7 @@ from django.urls import include, path
 from django.urls import path, include
 from django.contrib.auth.models import User
 from polls.models import Question
+from game_project.models import User, Level, Exercise, Achievement, Progress
 
 from rest_framework import routers, serializers, viewsets
 
@@ -44,10 +45,64 @@ class QuestionViewSet(viewsets.ModelViewSet):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
 
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'hash_password']
+
+# ViewSets define the view behavior.
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class LevelSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Level
+        fields = ['level_number', 'difficulty', 'description']
+
+# ViewSets define the view behavior.
+class LevelViewSet(viewsets.ModelViewSet):
+    queryset = Level.objects.all()
+    serializer_class = LevelSerializer
+
+class ExerciseSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Exercise
+        fields = ['level', 'text', 'time_limit']
+
+# ViewSets define the view behavior.
+class ExerciseViewSet(viewsets.ModelViewSet):
+    queryset = Exercise.objects.all()
+    serializer_class = ExerciseSerializer
+
+class AchievementSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Achievement
+        fields = ['name', 'description', 'icon', 'date']
+
+# ViewSets define the view behavior.
+class AchievementViewSet(viewsets.ModelViewSet):
+    queryset = Achievement.objects.all()
+    serializer_class = AchievementSerializer
+
+class ProgressSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Progress
+        fields = ['user', 'level', 'accuracy', 'speed', 'errors']
+
+# ViewSets define the view behavior.
+class ProgressViewSet(viewsets.ModelViewSet):
+    queryset = Progress.objects.all()
+    serializer_class = ProgressSerializer
+
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
-router.register(r'users', UserViewSet)
 router.register(r'question', QuestionViewSet)
+router.register(r'users', UserViewSet)
+router.register(r'Level', LevelViewSet)
+router.register(r'Exercise', ExerciseViewSet)
+router.register(r'Achievement', AchievementViewSet)
+router.register(r'Progress', ProgressViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
