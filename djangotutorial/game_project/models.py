@@ -2,6 +2,7 @@ from django.db import models
 
 
 class User(models.Model):
+    id = models.IntegerField(unique=True, primary_key=True)
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True)
     hash_password = models.CharField(max_length=255)

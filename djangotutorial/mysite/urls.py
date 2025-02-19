@@ -48,7 +48,7 @@ class QuestionViewSet(viewsets.ModelViewSet):
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'email', 'hash_password']
+        fields = ['id', 'username', 'email', 'hash_password']
 
 # ViewSets define the view behavior.
 class UserViewSet(viewsets.ModelViewSet):
@@ -85,7 +85,7 @@ class AchievementViewSet(viewsets.ModelViewSet):
     queryset = Achievement.objects.all()
     serializer_class = AchievementSerializer
 
-class ProgressSerializer(serializers.HyperlinkedModelSerializer):
+class ProgressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Progress
         fields = ['user', 'level', 'accuracy', 'speed', 'errors']
@@ -99,10 +99,10 @@ class ProgressViewSet(viewsets.ModelViewSet):
 router = routers.DefaultRouter()
 router.register(r'question', QuestionViewSet)
 router.register(r'users', UserViewSet)
-router.register(r'Level', LevelViewSet)
-router.register(r'Exercise', ExerciseViewSet)
-router.register(r'Achievement', AchievementViewSet)
-router.register(r'Progress', ProgressViewSet)
+router.register(r'level', LevelViewSet)
+router.register(r'exercise', ExerciseViewSet)
+router.register(r'achievement', AchievementViewSet)
+router.register(r'progress', ProgressViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
